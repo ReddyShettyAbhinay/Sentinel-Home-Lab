@@ -1,0 +1,12 @@
+// Detection: Brute Force Login Attempts
+// MITRE: T1110.001 - Brute Force: Password Guessing
+// Tactic: Credential Access
+// Fires when: more than 10 failed logins from same IP in 5 minutes
+
+SecurityEvent
+| where EventID == 4625
+| summarize FailedAttempts = count() by
+    TargetAccount,
+    IpAddress,
+    bin(TimeGenerated, 5m)
+| where FailedAttempts > 10

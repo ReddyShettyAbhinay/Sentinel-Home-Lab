@@ -1,0 +1,9 @@
+// Detection: Suspicious New User Account Created
+// MITRE: T1136.001 - Create Account: Local Account
+// Tactic: Persistence
+// Fires when: new local user created or added to privileged group
+
+SecurityEvent
+| where EventID in (4720, 4732)
+| where TargetAccount !contains "$"
+| project TimeGenerated, EventID, TargetAccount, SubjectUserName, Computer

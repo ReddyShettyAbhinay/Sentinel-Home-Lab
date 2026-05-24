@@ -1,0 +1,9 @@
+// Detection: Encoded PowerShell Execution
+// MITRE: T1059.001 - Command and Scripting Interpreter: PowerShell
+// Tactic: Execution
+// Fires when: PowerShell launched with encoded command flag
+
+SecurityEvent
+| where EventSourceName == "Microsoft-Windows-Sysmon"
+| where CommandLine has_any ("EncodedCommand", "-enc", "-e ")
+| project TimeGenerated, Computer, CommandLine, ParentProcessName, Account
